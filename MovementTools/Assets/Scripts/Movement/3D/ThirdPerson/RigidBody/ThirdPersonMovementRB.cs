@@ -10,7 +10,7 @@ public class ThirdPersonMovementRB : MonoBehaviour
     //--------------------------------------
     public Transform cam;
     Vector3 camRotation = Vector3.zero;
-    public bool shiftLock = false;
+    bool shiftLock = false;
 
     public float speed = 6f;
     public float airMultiplier = 0.25f;
@@ -64,6 +64,7 @@ public class ThirdPersonMovementRB : MonoBehaviour
             camRotation.x = transform.rotation.x;
             camRotation.z = transform.rotation.z;
             transform.rotation = Quaternion.Euler(camRotation);
+            //transform.Rotate(camRotation);
         }
         
 
