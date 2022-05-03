@@ -9,6 +9,8 @@ public class ThirdPersonMovementRB : MonoBehaviour
     //Variables
     //--------------------------------------
     public Transform cam;
+    Vector3 camRotation = Vector3.zero;
+    public bool shiftLock = false;
 
     public float speed = 6f;
     public float airMultiplier = 0.25f;
@@ -30,18 +32,41 @@ public class ThirdPersonMovementRB : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (inputDirection.magnitude >= 0.1f)
+        if (!shiftLock)
         {
-            float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y; //calculates angle for player direction to move and face
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime); //smoothes the angle transfer between current and target angle
-            transform.rotation = Quaternion.Euler(0f, angle, 0f); //sets the rotation to the current angle
+            if (inputDirection.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y; //calculates angle for player direction to move and face
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime); //smoothes the angle transfer between current and target angle
+                transform.rotation = Quaternion.Euler(0f, angle, 0f); //sets the rotation to the current angle
 
-            moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; //creates a movement direction off of the given angle
+                moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; //creates a movement direction off of the given angle
+            }
+            else
+            {
+                moveDirection = Vector3.zero;
+            }
         }
         else
         {
-            moveDirection = Vector3.zero;
+            if (inputDirection.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y; //calculates angle for player direction to move
+
+                moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; //creates a movement direction off of the given angle
+            }
+            else
+            {
+                moveDirection = Vector3.zero;
+            }
+
+            camRotation.y = cam.eulerAngles.y;
+            camRotation.x = transform.rotation.x;
+            camRotation.z = transform.rotation.z;
+            transform.rotation = Quaternion.Euler(camRotation);
         }
+        
+
 
         if (groundCheck) //on ground
         {
@@ -73,7 +98,7 @@ public class ThirdPersonMovementRB : MonoBehaviour
 
     private void OnCamera()
     {
-
+        shiftLock = shiftLock ? false : true;
     }
 
     private void OnCollisionEnter(Collision collision)
