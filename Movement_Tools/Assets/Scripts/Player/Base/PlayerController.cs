@@ -29,10 +29,10 @@ public class PlayerController : Movement
     public UnityEvent rightMouseUp;
 
 
-    public override void Start()
+    public override void Awake()
     {
         player = this;
-        base.Start();
+        base.Awake();
     }
     public override void Update()
     {

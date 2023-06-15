@@ -111,7 +111,7 @@ public class Movement : MonoBehaviour
     //----------------------------------------------------------------------
 
     #region Built In Engine Functions
-    public virtual void Start()
+    public virtual void Awake()
     {
         controller = GetComponent<CharacterController>();
         cam = GameObject.FindGameObjectWithTag("PlayerCamera");
