@@ -79,12 +79,21 @@
                 },
                 {
                     "name": "E",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "648e2ee3-4619-4c47-8aed-29a9fd912a06",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Q",
+                    "type": "Value",
+                    "id": "d5e8e8aa-f2fe-4f69-be85-e75d6f0f9135",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Sprint",
@@ -99,15 +108,6 @@
                     "name": "Restart",
                     "type": "Button",
                     "id": "88ed23fe-cf79-44fb-a5cb-8d7bb372a826",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Quit",
-                    "type": "Button",
-                    "id": "d5e8e8aa-f2fe-4f69-be85-e75d6f0f9135",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -287,7 +287,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Quit",
+                    "action": "Q",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

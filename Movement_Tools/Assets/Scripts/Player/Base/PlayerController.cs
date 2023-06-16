@@ -28,6 +28,14 @@ public class PlayerController : Movement
     public UnityEvent rightMouseDown;
     public UnityEvent rightMouseUp;
 
+    [Header("Q")]
+    public UnityEvent qDown;
+    public UnityEvent qUp;
+
+    [Header("E")]
+    public UnityEvent eDown;
+    public UnityEvent eUp;
+
 
     public override void Awake()
     {
@@ -51,11 +59,21 @@ public class PlayerController : Movement
         if(value.Get<float>() > 0)
             GameMaster.instance.Respawn();
     }
-    private void OnQuit(InputValue value)
+    private void OnQ(InputValue value)
     {
         if(value.Get<float>() > 0)
-            GameMaster.instance.QuitGame();
+            qDown.Invoke();
+        else
+            qUp.Invoke();
     }
+    private void OnE(InputValue value)
+    {
+        if (value.Get<float>() > 0)
+            eDown.Invoke();
+        else
+            eUp.Invoke();
+    }
+
     private void OnLMouseDown(InputValue value)
     {
         if(value.Get<float>() > 0)
