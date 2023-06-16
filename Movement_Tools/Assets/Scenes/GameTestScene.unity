@@ -3234,7 +3234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &832820905
 Transform:
   m_ObjectHideFlags: 0
@@ -7789,7 +7789,7 @@ MonoBehaviour:
   rotationFrequency: 2
   rotationDampingCoefficient: 0.8
   rotationResponse: 1.5
-  rotationScale: 0.25
+  rotationScale: 0.4
   offsetPosition: {x: 0, y: 0, z: 0}
   offsetRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &1492514881426878396
@@ -8185,7 +8185,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492514881865292413}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d86f715ed76bd04fb7f1064b3704f56, type: 3}
   m_Name: 

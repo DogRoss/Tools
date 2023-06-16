@@ -29,6 +29,8 @@ public class CameraPhysics : MonoBehaviour
     Vector3 currentRecoilRotation = Vector3.zero;
     Vector3 leaningVector = Vector3.zero;
 
+    Vector3 movementInputVector = Vector3.zero;
+    Vector3 rotationInputVector = Vector3.zero;
 
     [HideInInspector] public Vector3 offsetPosition;
     [HideInInspector] public Vector3 offsetRotation;
@@ -53,7 +55,7 @@ public class CameraPhysics : MonoBehaviour
 
         //MOVEMENT DYNAMICS
         //------------------------------------------------------------------------------------------------------------------------
-        Vector3 movementInputVector = Vector3.zero;
+        movementInputVector = Vector3.zero;
         movementInputVector += transform.InverseTransformDirection(new Vector3(0, player.Controller.velocity.normalized.y, 0));
 
         movementInputVector += offsetPosition;
@@ -63,8 +65,8 @@ public class CameraPhysics : MonoBehaviour
 
         //ROTATION DYNAMICS
         //------------------------------------------------------------------------------------------------------------------------
-        Vector3 rotationInputVector = Vector3.zero;
-        rotationInputVector += Vector3.Cross(-new Vector3(player.moveVec.x, 0, player.moveVec.z), Vector3.up);
+        rotationInputVector = Vector3.zero;
+        rotationInputVector += transform.InverseTransformDirection(Vector3.Cross(-new Vector3(player.moveVec.x, 0, player.moveVec.z), Vector3.up));
 
         rotationInputVector += offsetRotation;
         rotationInputVector = rotationDynamics.UpdateDynamics(Time.deltaTime, rotationInputVector) * rotationScale;

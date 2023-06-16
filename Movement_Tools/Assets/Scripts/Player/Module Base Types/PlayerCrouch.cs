@@ -110,6 +110,14 @@ public class PlayerCrouch : PlayerBase
         //uncrouch
         player.restrictAccelCoefficient = false;
 
+        float current = 0;
+        player.Controller.enableOverlapRecovery = true;
+        while(current < 1f)
+        {
+            current += Time.fixedDeltaTime;
+            player.Controller.height = Mathf.Lerp(player.originalControllerHeight / 2, player.originalControllerHeight, current / 1f);
+            yield return null;
+        }
         player.Controller.height = player.originalControllerHeight;
         crouching = false;
 
