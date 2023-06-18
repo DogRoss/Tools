@@ -172,8 +172,6 @@ public class Movement : MonoBehaviour
         if (!input)
             return;
 
-        print(value.Get<Vector2>());
-
         mouseVector.x = -value.Get<Vector2>().y;
         mouseVector.y = value.Get<Vector2>().x;
     }
