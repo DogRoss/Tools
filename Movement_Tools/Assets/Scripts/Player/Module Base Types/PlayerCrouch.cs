@@ -54,7 +54,7 @@ public class PlayerCrouch : PlayerBase
         {
             if (coroutineRunning)
             {
-                StopCoroutine(UnCrouch());
+                StopAllCoroutines();
                 coroutineRunning = false;
             }
 
@@ -65,7 +65,9 @@ public class PlayerCrouch : PlayerBase
             crouching = true;
             player.currentAccelCoefficient = crouchAccelCoefficient;
 
-            if(player.jumpEvent)
+            player.AddForce(Vector3.down * .1f);
+
+            if (player.jumpEvent)
                 player.jumpEvent.jumpMultiplier -= crouchJumpDeductive;
         }
         else
@@ -116,6 +118,7 @@ public class PlayerCrouch : PlayerBase
         {
             current += Time.fixedDeltaTime;
             player.Controller.height = Mathf.Lerp(player.originalControllerHeight / 2, player.originalControllerHeight, current / 1f);
+            player.AddForce(Vector3.down * .1f);
             yield return null;
         }
         player.Controller.height = player.originalControllerHeight;

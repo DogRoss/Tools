@@ -1528,7 +1528,6 @@ GameObject:
   - component: {fileID: 351147296}
   - component: {fileID: 351147295}
   - component: {fileID: 351147294}
-  - component: {fileID: 351147302}
   m_Layer: 3
   m_Name: Player Controller (1)
   m_TagString: Untagged
@@ -1593,7 +1592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074e776fd5bacee4ab8993ae709c56bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 30
+  jumpForce: 10
   jumpMultiplier: 1
   jumpDirection: {x: 0, y: 1, z: 0}
   jumped: 0
@@ -1810,21 +1809,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351147289}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &351147302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 351147289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27df036ed6b97794eaeb86e5686afd7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallRunningSpeed: 30
-  verticalSpeedCap: 1
-  slowdownRate: 100
 --- !u!1 &384808407
 GameObject:
   m_ObjectHideFlags: 0
@@ -5626,7 +5610,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281764213}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.598, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1768523873}
@@ -5761,7 +5745,6 @@ GameObject:
   - component: {fileID: 1338796121}
   - component: {fileID: 1338796120}
   - component: {fileID: 1338796119}
-  - component: {fileID: 1338796118}
   - component: {fileID: 1338796117}
   - component: {fileID: 1338796116}
   m_Layer: 3
@@ -5817,25 +5800,6 @@ MonoBehaviour:
   wallClimbForce: 100
   maxWallClimbSpeed: 10
   wallClimbBreakAngle: 12
---- !u!114 &1338796118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1338796114}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1100129eaa662a44ab222bada456cf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crouchAccelCoefficient: 0.1
-  crouchJumpDeductive: 0.5
-  crouching: 0
-  slideBoostMultiplier: 2.5
-  minimumSlideVelocity: 7
-  slideFrictionCoefficient: 0.03
-  slideCooldownTime: 0.5
 --- !u!114 &1338796119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6997,7 +6961,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1631484311
 Transform:
   m_ObjectHideFlags: 0

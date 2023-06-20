@@ -4,11 +4,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerJump))]
+[RequireComponent(typeof(PlayerCrouch))]
 public class WallRunning : MonoBehaviour
 {
 
     PlayerController _player;
     PlayerJump _jumpEvent;
+    PlayerCrouch _crouchEvent;
     Transform _camera;
     CameraPhysics _campPhys;
 
@@ -24,13 +26,14 @@ public class WallRunning : MonoBehaviour
     {
         _player = GetComponent<PlayerController>();
         _jumpEvent = GetComponent<PlayerJump>();
+        _crouchEvent = GetComponent<PlayerCrouch>();
         _camera = _player.Cam.transform;
         _campPhys = GetComponentInChildren<CameraPhysics>();
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (_player.grounded)
+        if (_player.grounded || _crouchEvent.crouching)
             return;
 
         Vector3 movementAxis = Vector3.Cross(hit.normal, Vector3.up);
@@ -60,7 +63,7 @@ public class WallRunning : MonoBehaviour
 
         Vector3 movementDirection = Vector3.Project(_player.direction, movementAxis).normalized;
 
-        while (_player.Controller.collisionFlags != CollisionFlags.None && _player.Controller.collisionFlags != CollisionFlags.Below)
+        while (_player.Controller.collisionFlags != CollisionFlags.None && _player.Controller.collisionFlags != CollisionFlags.Below && !_crouchEvent.crouching)
         {
             movementDirection = Vector3.Project(_player.direction, movementAxis).normalized;
             _player.AddForce((movementDirection * dot) * wallRunningSpeed * Time.deltaTime);
