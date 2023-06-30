@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 1
+  - enabled: 0
     path: Assets/BloomFall_Map_Necessities/Scenes/GameScene.unity
     guid: e565d379ce907de46b6c4e4176a7c46d
+  - enabled: 1
+    path: Assets/Scenes/GameTestScene.unity
+    guid: ee69615a5ca1a2d459c9598207c9fe98
   m_configObjects: {}

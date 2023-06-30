@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 846463843147879775}
   - component: {fileID: 4301362950903544793}
   - component: {fileID: 7624713618836079051}
+  - component: {fileID: 2004630585}
   m_Layer: 3
   m_Name: BloomFallController
   m_TagString: Untagged
@@ -365,11 +366,11 @@ MonoBehaviour:
   verticalDragCoefficient: 0.01
   horizontalDragCoefficient: 0.03
   restrictAirMovement: 0
-  mouseAcceleration: 1
-  sensitivity: 0.5
+  mouseAcceleration: 5000
+  sensitivity: 1
   maxLookAngle: 90
   minLookAngle: -90
-  inputLagPeriod: 0
+  inputLagPeriod: 1
   grounded: 1
   direction: {x: 0, y: 0, z: 0}
   mouseVector: {x: 0, y: 0, z: 0}
@@ -385,10 +386,34 @@ MonoBehaviour:
       m_Calls: []
   rightMouseDown:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 477987646}
+        m_TargetAssemblyTypeName: RangedWeapon, Assembly-CSharp
+        m_MethodName: AimDownSights
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   rightMouseUp:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 477987646}
+        m_TargetAssemblyTypeName: RangedWeapon, Assembly-CSharp
+        m_MethodName: AimDownSights
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   qDown:
     m_PersistentCalls:
       m_Calls:
@@ -527,6 +552,24 @@ MonoBehaviour:
   jumpMultiplier: 1
   jumpDirection: {x: 0, y: 1, z: 0}
   jumped: 0
+--- !u!114 &2004630585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5487971316835047406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2171593cebf888c40bbc25716c1d7ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectedTransform: {fileID: 5132642669729921393}
+  rotationDirections: -1
+  acceleration: {x: 7500, y: 7500}
+  sensitivity: {x: 75, y: -75}
+  maxVerticalAngleFromHorizon: 90
+  inputLagPeriod: 0.005
 --- !u!1 &6214461176175094394
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,8 +901,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8588586023995371948}
   - component: {fileID: 8588586023995371951}
-  - component: {fileID: 8588586023995371950}
   - component: {fileID: 8588586023995371949}
+  - component: {fileID: 477987646}
   m_Layer: 3
   m_Name: HandGun_Root
   m_TagString: Untagged
@@ -898,32 +941,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8588586023995371950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8588586023995371947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abc49470ff65e60438963b208fd66b80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _holder: {fileID: 0}
-  useRotationDynamics: 1
-  rotationFrequency: 2
-  rotationDampingCoefficient: 0.6
-  rotationResponse: 3
-  rotationScale: -50
-  angleScale: -0.05
-  offsetRotation: {x: 0, y: 0, z: 0}
-  usePositionDynamics: 1
-  movementScale: -0.2
-  movementFrequency: 2
-  movementDampingCoefficient: 0.6
-  movementResponse: 0.75
-  offsetPosition: {x: 0.1, y: -0.1, z: 0.2}
 --- !u!65 &8588586023995371949
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -937,6 +954,33 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.4302979, y: 2.3079453, z: 2.4641113}
   m_Center: {x: -0.14312744, y: -0.017787933, z: 0.13806152}
+--- !u!114 &477987646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8588586023995371947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e469ee44bc685b84f8cf1f44fee92b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _holder: {fileID: 0}
+  useRotationDynamics: 1
+  rotationFrequency: 2
+  rotationDampingCoefficient: 0.6
+  rotationResponse: 3
+  rotationScale: -50
+  angleScale: -0.01
+  offsetRotation: {x: 0, y: 0, z: 0}
+  usePositionDynamics: 1
+  movementScale: -0.2
+  movementFrequency: 2
+  movementDampingCoefficient: 0.6
+  movementResponse: 0.75
+  offsetPosition: {x: 0.1, y: -0.1, z: 0.4}
+  aimingPos: {x: 0, y: -0.1, z: 0.2}
 --- !u!1 &8588586024522220838
 GameObject:
   m_ObjectHideFlags: 0

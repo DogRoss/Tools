@@ -65,7 +65,7 @@ public class Weapon : MonoBehaviour
     public virtual void UpdatePositionDynamics()
     {
         //TODO: replace zero vector with offset positional vector
-        _movementInputVector = transform.InverseTransformDirection(movementScale * _holder._velocity);
+        _movementInputVector = transform.InverseTransformDirection(movementScale * _holder._velocity) + _holder.transform.localPosition;
         _movementInputVector = _movementDynamics.UpdateDynamics(Time.fixedDeltaTime, _movementInputVector);
         transform.localPosition = _movementInputVector;
     }

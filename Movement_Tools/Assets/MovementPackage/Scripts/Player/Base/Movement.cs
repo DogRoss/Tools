@@ -134,7 +134,6 @@ public class Movement : MonoBehaviour
     }
     public virtual void Update()
     {
-        HandleCamera();
     }
     public virtual void FixedUpdate()
     {

@@ -18,6 +18,8 @@ public class WeaponHolder : MonoBehaviour
 
     [HideInInspector] public Vector3 angularVelocity;
     Quaternion _lastRotation;
+    Quaternion _deltaRot;
+    Vector3 _eulerRot;
 
     public void Start()
     {
@@ -35,23 +37,12 @@ public class WeaponHolder : MonoBehaviour
         _velocity = transform.position - _lastPos;
         _lastPos = transform.position;
 
-        //_deltaRotation = transform.rotation * Quaternion.Inverse(_lastRotation);
-        //_deltaRotation.ToAngleAxis(out magnitude, out axis);
-        //_lastRotation = transform.rotation;
+        _deltaRot = transform.rotation * Quaternion.Inverse(_lastRotation);
+        _eulerRot = new Vector3(Mathf.DeltaAngle(0, _deltaRot.eulerAngles.x), Mathf.DeltaAngle(0, _deltaRot.eulerAngles.y), Mathf.DeltaAngle(0, _deltaRot.eulerAngles.z));
 
-        var deltaRot = transform.rotation * Quaternion.Inverse(_lastRotation);
-        var eulerRot = new Vector3(Mathf.DeltaAngle(0, deltaRot.eulerAngles.x), Mathf.DeltaAngle(0, deltaRot.eulerAngles.y), Mathf.DeltaAngle(0, deltaRot.eulerAngles.z));
-
-        angularVelocity = eulerRot / Time.fixedDeltaTime;
+        angularVelocity = _eulerRot / Time.fixedDeltaTime;
         _lastRotation = transform.rotation;
     }
-    //public Vector3 angularVelocity
-    //{
-    //    get
-    //    {
-    //        return (magnitude * axis) / Time.fixedDeltaTime;
-    //    }
-    //}
 
     //Checks to see if item equipped or not, if equipped, drop, if not, try and equip
     public void ContextEquipWeapon()
@@ -90,7 +81,7 @@ public class WeaponHolder : MonoBehaviour
 
         weapon = _weapon;
         weapon.EnableRigidbodyPhysics(false);
-        weapon.transform.parent = transform;
+        weapon.transform.parent = transform.parent;
         weapon.transform.localPosition = Vector3.zero;
         weapon.transform.localRotation = Quaternion.identity;
         weapon._holder = this;
