@@ -27,11 +27,9 @@ public class WeaponHolder : MonoBehaviour
     [HideInInspector] public Vector3 _offsetPosition;
 
     //rotation
-    //Quaternion _currentRotation = Quaternion.identity;
     Vector3 _currentRotation = Vector3.zero;
-    //Quaternion _targetRotation = Quaternion.identity;
     Vector3 _targetRotation = Vector3.zero;
-    [HideInInspector] public Quaternion _offsetRotation = Quaternion.identity;
+    [HideInInspector] public Vector3 _offsetRotation;
 
     [HideInInspector] public Vector3 angularVelocity;
     Quaternion _lastRotation;
@@ -51,7 +49,6 @@ public class WeaponHolder : MonoBehaviour
     }
     private void FixedUpdate()
     {
-       
         _velocity = transform.position - _lastPos;
         _lastPos = transform.position;
 
@@ -61,17 +58,13 @@ public class WeaponHolder : MonoBehaviour
         angularVelocity = _eulerRot / Time.fixedDeltaTime;
         _lastRotation = transform.rotation;
 
-
-        //_currentRotation = Quaternion.Lerp(_currentRotation, _targetRotation, snappiness * Time.fixedDeltaTime);
-        //_targetRotation = Quaternion.Lerp(_targetRotation, _offsetRotation, rotCenteringForce * Time.fixedDeltaTime);
         _currentRotation = Vector3.Slerp(_currentRotation, _targetRotation, snappiness * Time.fixedDeltaTime);
-        _targetRotation = Vector3.SlerpUnclamped(_targetRotation, _offsetRotation.eulerAngles, rotCenteringForce * Time.fixedDeltaTime);
+        _targetRotation = Vector3.Lerp(_targetRotation, _offsetRotation, rotCenteringForce * Time.fixedDeltaTime);
 
         _currentPosition = Vector3.Lerp(_currentPosition, _targetPosition, snappiness * Time.fixedDeltaTime);
         _targetPosition = Vector3.Lerp(_targetPosition, _offsetPosition, posCenteringForce * Time.fixedDeltaTime);
 
         //apply
-        //transform.localRotation = _currentRotation;
         transform.localRotation = Quaternion.Euler(_currentRotation);
         transform.localPosition = _currentPosition;
     }
@@ -120,8 +113,8 @@ public class WeaponHolder : MonoBehaviour
 
         _offsetPosition = weapon.offsetPosition;
         transform.localPosition = _offsetPosition;
-        _offsetRotation = Quaternion.Euler(weapon.offsetRotation);
-        transform.localRotation = _offsetRotation;
+        _offsetRotation = weapon.offsetRotation;
+        transform.localRotation = Quaternion.Euler(_offsetRotation);
     }
 
     public void MainInteraction(bool enable)
@@ -139,11 +132,9 @@ public class WeaponHolder : MonoBehaviour
         weapon.SecondaryAbility(enable);
     }
 
-    [ContextMenu("Recoil")]
-    public void AddRandomForce()
+    public void AddForce(Vector3 positionForce, Vector3 rotationForce)
     {
-        _targetPosition += (Vector3.right * .15f) + (Vector3.up * .25f) + (Vector3.forward * -.15f);
-        //_targetRotation.eulerAngles += transform.right * 45;
-        _targetRotation.x -= 45;
+        _targetPosition += positionForce;
+        _targetRotation += rotationForce;
     }
 }

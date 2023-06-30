@@ -71,9 +71,19 @@ public class Weapon : MonoBehaviour
     }
     public virtual void UpdateRotationDynamics()
     {
-        _rotationInputVector = Vector3.Cross(rotationScale * transform.InverseTransformDirection(_holder._velocity), _holder.transform.up) + _holder.transform.localRotation.eulerAngles;
+        _rotationInputVector = _holder.transform.localEulerAngles;
+        if (_rotationInputVector.x > 180)
+            _rotationInputVector.x -= 360;
+        if (_rotationInputVector.y > 180)
+            _rotationInputVector.y -= 360;
+        if (_rotationInputVector.z > 180)
+            _rotationInputVector.z -= 360;
+        _holder.transform.localEulerAngles = _rotationInputVector;
+
+        _rotationInputVector += Vector3.Cross(rotationScale * transform.InverseTransformDirection(_holder._velocity), _holder.transform.up);
         _rotationInputVector += angleScale * transform.InverseTransformDirection(_holder.angularVelocity);
         _rotationInputVector = _rotationDynamics.UpdateDynamics(Time.fixedDeltaTime, _rotationInputVector);
+
         transform.localRotation = Quaternion.Euler(_rotationInputVector);
     }
 
@@ -88,17 +98,13 @@ public class Weapon : MonoBehaviour
                 _holder.weapon = null;
 
             foreach(Collider c in GetComponents<Collider>())
-            {
                 c.enabled = true;
-            }
         }
         else
         {
             _rb.isKinematic = true;
             foreach (Collider c in GetComponents<Collider>())
-            {
                 c.enabled = false;
-            }
         }
     }
 

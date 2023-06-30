@@ -380,16 +380,40 @@ MonoBehaviour:
   health: 100
   leftMouseDown:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8588586024522220856}
+        m_TargetAssemblyTypeName: WeaponHolder, Assembly-CSharp
+        m_MethodName: MainInteraction
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   leftMouseUp:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8588586024522220856}
+        m_TargetAssemblyTypeName: WeaponHolder, Assembly-CSharp
+        m_MethodName: MainInteraction
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   rightMouseDown:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 477987646}
-        m_TargetAssemblyTypeName: RangedWeapon, Assembly-CSharp
-        m_MethodName: AimDownSights
+      - m_Target: {fileID: 8588586024522220856}
+        m_TargetAssemblyTypeName: WeaponHolder, Assembly-CSharp
+        m_MethodName: SecondaryInteraction
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -402,9 +426,9 @@ MonoBehaviour:
   rightMouseUp:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 477987646}
-        m_TargetAssemblyTypeName: RangedWeapon, Assembly-CSharp
-        m_MethodName: AimDownSights
+      - m_Target: {fileID: 8588586024522220856}
+        m_TargetAssemblyTypeName: WeaponHolder, Assembly-CSharp
+        m_MethodName: SecondaryInteraction
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -548,7 +572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074e776fd5bacee4ab8993ae709c56bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 20
+  jumpForce: 15
   jumpMultiplier: 1
   jumpDirection: {x: 0, y: 1, z: 0}
   jumped: 0
@@ -566,7 +590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   affectedTransform: {fileID: 5132642669729921393}
   rotationDirections: -1
-  acceleration: {x: 7500, y: 7500}
+  acceleration: {x: 9000, y: 9000}
   sensitivity: {x: 75, y: -75}
   maxVerticalAngleFromHorizon: 90
   inputLagPeriod: 0.005
@@ -972,13 +996,13 @@ MonoBehaviour:
   rotationDampingCoefficient: 0.6
   rotationResponse: 3
   rotationScale: -50
-  angleScale: -0.01
+  angleScale: 0.015
   offsetRotation: {x: 0, y: 0, z: 0}
   usePositionDynamics: 1
-  movementScale: -0.2
-  movementFrequency: 2
+  movementScale: -0.25
+  movementFrequency: 1.5
   movementDampingCoefficient: 0.6
-  movementResponse: 0.75
+  movementResponse: 1.25
   offsetPosition: {x: 0.1, y: -0.1, z: 0.4}
   aimingPos: {x: 0, y: -0.1, z: 0.2}
 --- !u!1 &8588586024522220838
@@ -1031,7 +1055,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   weaponCheckDistance: 5
+  posCenteringForce: 40
+  rotCenteringForce: 20
+  snappiness: 40
   _velocity: {x: 0, y: 0, z: 0}
+  _offsetPosition: {x: 0, y: 0, z: 0}
+  _offsetRotation: {x: 0, y: 0, z: 0}
   angularVelocity: {x: 0, y: 0, z: 0}
 --- !u!1 &8588586025443812645
 GameObject:
@@ -1085,14 +1114,14 @@ MonoBehaviour:
   rotationDampingCoefficient: 0.8
   rotationResponse: 3
   rotationScale: -50
-  angleScale: 1
+  angleScale: 0
   offsetRotation: {x: 0, y: 0, z: 0}
   usePositionDynamics: 1
   movementScale: -0.4
   movementFrequency: 2
   movementDampingCoefficient: 0.8
   movementResponse: 0.75
-  offsetPosition: {x: 0, y: 0, z: 0}
+  offsetPosition: {x: 0.1, y: -0.3, z: 0.4}
 --- !u!65 &8588586025443812646
 BoxCollider:
   m_ObjectHideFlags: 0

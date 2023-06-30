@@ -7943,26 +7943,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 477987646, guid: c86226f92fdfd5948b37483979d90027, type: 3}
-      propertyPath: movementScale
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 477987646, guid: c86226f92fdfd5948b37483979d90027, type: 3}
-      propertyPath: movementResponse
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 477987646, guid: c86226f92fdfd5948b37483979d90027, type: 3}
-      propertyPath: movementFrequency
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 477987646, guid: c86226f92fdfd5948b37483979d90027, type: 3}
-      propertyPath: useRotationDynamics
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 477987646, guid: c86226f92fdfd5948b37483979d90027, type: 3}
-      propertyPath: movementDampingCoefficient
-      value: 0.7
-      objectReference: {fileID: 0}
     - target: {fileID: 4491601699904114063, guid: c86226f92fdfd5948b37483979d90027, type: 3}
       propertyPath: m_RootOrder
       value: 1
