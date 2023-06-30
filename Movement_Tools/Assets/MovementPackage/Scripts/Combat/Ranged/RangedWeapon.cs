@@ -6,14 +6,15 @@ public class RangedWeapon : Weapon
 {
     [Header("Ranged Weapon Values")]
     public Vector3 aimingPos;
-    Vector3 startingPos;
     bool ads = false;
 
-    public override void Start()
+    public override void MainAbility(bool enable)
     {
-        base.Start();
-
-        startingPos = offsetPosition;
+        Recoil();
+    }
+    public override void SecondaryAbility(bool enable)
+    {
+        AimDownSights(enable);
     }
 
     public void AimDownSights(bool enable)
@@ -21,11 +22,17 @@ public class RangedWeapon : Weapon
         ads = enable;
         if (ads)
         {
-            _holder.transform.localPosition = aimingPos;
+            _holder._offsetPosition = aimingPos;
         }
         else
         {
-            _holder.transform.localPosition = startingPos;
+            _holder._offsetPosition = offsetPosition;
         }
+    }
+
+    //Shoot
+    private void Recoil()
+    {
+
     }
 }

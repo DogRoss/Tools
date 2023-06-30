@@ -71,7 +71,7 @@ public class Weapon : MonoBehaviour
     }
     public virtual void UpdateRotationDynamics()
     {
-        _rotationInputVector = Vector3.Cross(rotationScale * transform.InverseTransformDirection(_holder._velocity), _holder.transform.up);
+        _rotationInputVector = Vector3.Cross(rotationScale * transform.InverseTransformDirection(_holder._velocity), _holder.transform.up) + _holder.transform.localRotation.eulerAngles;
         _rotationInputVector += angleScale * transform.InverseTransformDirection(_holder.angularVelocity);
         _rotationInputVector = _rotationDynamics.UpdateDynamics(Time.fixedDeltaTime, _rotationInputVector);
         transform.localRotation = Quaternion.Euler(_rotationInputVector);
