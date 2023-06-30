@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponHolder : MonoBehaviour
 {
     PlayerController _player;
+    CameraPhysics _camPhys;
     public Weapon weapon;
 
     public LayerMask weaponMask;
@@ -12,13 +13,17 @@ public class WeaponHolder : MonoBehaviour
 
     //private variables
     Transform _camTransform;
-    public Vector3 _velocity = Vector3.zero;
+    [HideInInspector] public Vector3 _velocity = Vector3.zero;
     Vector3 _lastPos = Vector3.zero;
+
+    [HideInInspector] public Vector3 angularVelocity;
+    Quaternion _lastRotation;
 
     public void Start()
     {
         _player = PlayerController.player;
         _camTransform = _player.Cam.transform;
+        _camPhys = GetComponentInParent<CameraPhysics>();
 
         if (weapon == null)
             weapon = GetComponentInChildren<Weapon>();
@@ -29,12 +34,37 @@ public class WeaponHolder : MonoBehaviour
     {
         _velocity = transform.position - _lastPos;
         _lastPos = transform.position;
-    }
 
+        //_deltaRotation = transform.rotation * Quaternion.Inverse(_lastRotation);
+        //_deltaRotation.ToAngleAxis(out magnitude, out axis);
+        //_lastRotation = transform.rotation;
+
+        var deltaRot = transform.rotation * Quaternion.Inverse(_lastRotation);
+        var eulerRot = new Vector3(Mathf.DeltaAngle(0, deltaRot.eulerAngles.x), Mathf.DeltaAngle(0, deltaRot.eulerAngles.y), Mathf.DeltaAngle(0, deltaRot.eulerAngles.z));
+
+        angularVelocity = eulerRot / Time.fixedDeltaTime;
+        _lastRotation = transform.rotation;
+    }
+    //public Vector3 angularVelocity
+    //{
+    //    get
+    //    {
+    //        return (magnitude * axis) / Time.fixedDeltaTime;
+    //    }
+    //}
+
+    //Checks to see if item equipped or not, if equipped, drop, if not, try and equip
+    public void ContextEquipWeapon()
+    {
+        if(weapon == null)
+            PickupWeapon();
+        else
+            DropWeapon();
+    }
     public void PickupWeapon()
     {
         Weapon w = null;
-        if(Physics.Raycast(_camTransform.position, _camTransform.forward, out RaycastHit hit, weaponCheckDistance, weaponMask))
+        if(Physics.SphereCast(_camTransform.position, 2f, _camTransform.forward, out RaycastHit hit, weaponCheckDistance, weaponMask))
             w = hit.transform.GetComponent<Weapon>();
 
         if (w)
@@ -65,8 +95,8 @@ public class WeaponHolder : MonoBehaviour
         weapon.transform.localRotation = Quaternion.identity;
         weapon._holder = this;
 
-        transform.localPosition = weapon.startingOffsetPosition;
-        transform.localRotation = Quaternion.Euler(weapon.startingOffsetRotation);
+        transform.localPosition = weapon.offsetPosition;
+        transform.localRotation = Quaternion.Euler(weapon.offsetRotation);
     }
 
     public void MainInteraction(bool enable)

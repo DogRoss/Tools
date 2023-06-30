@@ -81,10 +81,17 @@ public class Movement : MonoBehaviour
     //----------------------------------------------------------------------
 
     [Header("Camera Values")]
+    public float mouseAcceleration = 1;
     public float sensitivity = 0.5f;
     public float maxLookAngle = 90;
     public float minLookAngle = -90;
     private float clampX = 0f;
+    [SerializeField] private float inputLagPeriod;
+    private Vector2 velocity = Vector2.zero;
+    private Vector2 rotation = Vector2.zero;
+
+    private Vector2 lastInputEvent;
+    private float inputLagTimer;
 
     //----------------------------------------------------------------------
 
@@ -144,7 +151,6 @@ public class Movement : MonoBehaviour
             newMag *= Mathf.Abs(dot);
             moveVec += hit.normal * newMag;
         }
-
     }
     private void OnDrawGizmos()
     {
@@ -171,6 +177,8 @@ public class Movement : MonoBehaviour
     {
         if (!input)
             return;
+
+        inputLagTimer += Time.deltaTime;
 
         mouseVector.x = -value.Get<Vector2>().y;
         mouseVector.y = value.Get<Vector2>().x;
@@ -277,30 +285,49 @@ public class Movement : MonoBehaviour
     /// </summary>
     private void HandleCamera()
     {
-        Vector3 axis = mouseVector;
-
-        axis.y = mouseVector.y;
-        axis.x = 0;
-        transform.Rotate(axis, Mathf.Abs(mouseVector.y) * sensitivity);
-
-        float mouseX = mouseVector.x;
-        clampX += mouseX * sensitivity;
-        if (Mathf.Abs(clampX) < maxLookAngle)
+        inputLagTimer += Time.deltaTime;
+    
+        Vector2 wantedVelocity = lastInputEvent * sensitivity;
+    
+        velocity = new Vector2(Mathf.MoveTowards(velocity.x, wantedVelocity.x, mouseAcceleration * Time.deltaTime), Mathf.MoveTowards(velocity.y, wantedVelocity.y, mouseAcceleration * Time.deltaTime));
+        rotation += velocity * Time.deltaTime;
+        cam.transform.localEulerAngles = new Vector3(rotation.x, rotation.y, 0);
+    
+        if((Mathf.Approximately(0, mouseVector.x) && Mathf.Approximately(0, mouseVector.y)) == false || inputLagTimer >= inputLagPeriod)
         {
-            cam.transform.Rotate(Vector3.right * (mouseX * sensitivity));
+            lastInputEvent = mouseVector;
+            inputLagTimer = 0;
+            mouseVector = Vector3.zero;
         }
-        else
-        {
-            if (clampX > maxLookAngle) clampX = 90f;
-            else if (clampX < minLookAngle) clampX = -90f;
-
-            Vector3 eulerRot = cam.transform.eulerAngles;
-            eulerRot.x = clampX;
-            cam.transform.eulerAngles = eulerRot;
-        }
-
-        mouseVector = Vector2.zero;
     }
+    //private void HandleCamera()
+    //{
+    //    Vector3 vel = mouseVector * sensitivity;
+    //    Vector3 axis = mouseVector;
+    //    
+    //    axis.y = mouseVector.y;
+    //    axis.x = 0;
+    //    transform.Rotate(axis, Mathf.Abs(vel.y));
+    //    
+    //    float mouseX = vel.x;
+    //    clampX += mouseX;
+    //    if (Mathf.Abs(clampX) < maxLookAngle)
+    //    {
+    //        cam.transform.Rotate(Vector3.right * (mouseX));
+    //    }
+    //    else
+    //    {
+    //        if (clampX > maxLookAngle) clampX = 90f;
+    //        else if (clampX < minLookAngle) clampX = -90f;
+    //    
+    //        Vector3 eulerRot = cam.transform.eulerAngles;
+    //        eulerRot.x = clampX;
+    //        cam.transform.eulerAngles = eulerRot;
+    //    }
+    //    mouseVector = Vector2.zero;
+    //}
+    
+   
 
     /// <summary>
     /// Handles what direction the player will move in based on being in the air and input direction
@@ -321,7 +348,9 @@ public class Movement : MonoBehaviour
         moveVec.y -= gravity;
 
         //get directional input and account for player forward
-        Vector3 forces = transform.forward * direction.z + transform.right * direction.x;
+        Vector3 forward = Vector3.ProjectOnPlane(cam.transform.forward, Vector3.up);
+        Vector3 right = Vector3.ProjectOnPlane(cam.transform.right, Vector3.up);
+        Vector3 forces = forward * direction.z + right * direction.x;
         //get acceleration rate
         forces *= acceleration * airAccelerationCoefficient;
 
@@ -352,7 +381,9 @@ public class Movement : MonoBehaviour
 
         //get directional input and account for player forward
         //then apply acceleration coefficient
-        Vector3 forces = (transform.forward * direction.z + transform.right * direction.x) * currentAccelCoefficient;
+        Vector3 forward = Vector3.ProjectOnPlane(cam.transform.forward, Vector3.up);
+        Vector3 right = Vector3.ProjectOnPlane(cam.transform.right, Vector3.up);
+        Vector3 forces = (forward * direction.z + right * direction.x) * currentAccelCoefficient;
 
         //Apply forces
         moveVec += forces;

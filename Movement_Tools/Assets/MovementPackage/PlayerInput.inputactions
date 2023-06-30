@@ -96,6 +96,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "F",
+                    "type": "Value",
+                    "id": "e2f28c23-87d7-4d5b-9a61-88638798f635",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Sprint",
                     "type": "Value",
                     "id": "2ce00d0a-efe7-4475-8a81-0eca637c051b",
@@ -288,6 +297,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Q",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce3a1cb1-45d2-4799-aa82-8644ed590f17",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "F",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

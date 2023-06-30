@@ -14,12 +14,13 @@ public class Weapon : MonoBehaviour
 
     [Header("Rotation Dynamics and Offset")]
     public bool useRotationDynamics = true;
-    public float rotationScale = 1;
     public float rotationFrequency = 2;
     public float rotationDampingCoefficient = .8f;
     public float rotationResponse = .5f;
+    public float rotationScale = 1;
+    public float angleScale = 1;
 
-    public Vector3 startingOffsetRotation = Vector3.zero;
+    public Vector3 offsetRotation = Vector3.zero;
 
     [Header("Position Dynamics and Offset")]
     public bool usePositionDynamics = true;
@@ -28,21 +29,22 @@ public class Weapon : MonoBehaviour
     public float movementDampingCoefficient = .8f;
     public float movementResponse = .5f;
 
-    public Vector3 startingOffsetPosition = Vector3.zero;
+    public Vector3 offsetPosition = Vector3.zero;
 
     //private variables
     Vector3 _movementInputVector = Vector3.zero;
     Vector3 _rotationInputVector = Vector3.zero;
 
-    public virtual void Start()
+    public virtual void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-
         if (transform.parent == null)
             EnableRigidbodyPhysics(true);
         else
             EnableRigidbodyPhysics(false);
-
+    }
+    public virtual void Start()
+    {
         _player = PlayerController.player;
 
         _movementDynamics = new SecondOrderDynamics();
@@ -70,6 +72,7 @@ public class Weapon : MonoBehaviour
     public virtual void UpdateRotationDynamics()
     {
         _rotationInputVector = Vector3.Cross(rotationScale * transform.InverseTransformDirection(_holder._velocity), _holder.transform.up);
+        _rotationInputVector += angleScale * transform.InverseTransformDirection(_holder.angularVelocity);
         _rotationInputVector = _rotationDynamics.UpdateDynamics(Time.fixedDeltaTime, _rotationInputVector);
         transform.localRotation = Quaternion.Euler(_rotationInputVector);
     }
