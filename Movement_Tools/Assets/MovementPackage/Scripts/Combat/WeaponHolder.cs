@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponHolder : MonoBehaviour
 {
     PlayerController _player;
-    CameraPhysics _camPhys;
+    [HideInInspector] public CameraPhysics _camPhys;
     public Weapon weapon;
 
     public LayerMask weaponMask;

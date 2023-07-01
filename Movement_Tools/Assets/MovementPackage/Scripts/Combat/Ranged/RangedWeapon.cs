@@ -5,7 +5,11 @@ using UnityEngine;
 public class RangedWeapon : Weapon
 {
     [Header("Ranged Weapon Values")]
-    public Vector3 aimingPos;
+    public Transform firePoint;
+    public Vector3 aimingPosition;
+    public Vector3 positionRecoil;
+    public Vector3 rotationRecoil;
+    public float cameraRecoilCoefficient = .5f;
     bool ads = false;
 
     float originalRotationScale;
@@ -20,7 +24,7 @@ public class RangedWeapon : Weapon
     public override void MainAbility(bool enable)
     {
         if(enable)
-            Recoil();
+            Shoot();
     }
     public override void SecondaryAbility(bool enable)
     {
@@ -38,13 +42,12 @@ public class RangedWeapon : Weapon
         ads = enable;
         if (ads)
         {
-            _holder._offsetPosition = aimingPos;
+            _holder._offsetPosition = aimingPosition;
 
             rotationScale *= .5f;
             angleScale *= .5f;
             movementScale *= .5f;
-
-        }
+        }   
         else
         {
             _holder._offsetPosition = offsetPosition;
@@ -55,15 +58,20 @@ public class RangedWeapon : Weapon
         }
     }
 
-    //Shoot
-    public virtual void Recoil()
+    public virtual void Shoot()
     {
-        Vector3 posForce = (Vector3.right * .6f) + (Vector3.up * .4f) + (Vector3.forward * -.5f);
-        Vector3 rotForce = Vector3.zero;
-        rotForce.x -= 60;
-        rotForce.y += 40;
-        rotForce.z -= 50;
+        //raycast for fps distance
 
+
+        //handle recoil
+        Vector3 posForce = positionRecoil;
+        posForce.x = Random.Range(-posForce.x, posForce.x);
+        Vector3 rotForce = Vector3.zero;
+        rotForce.x -= rotationRecoil.x;
+        rotForce.y += Random.Range(-rotationRecoil.y, rotationRecoil.y);
+        rotForce.z += Random.Range(-rotationRecoil.z, rotationRecoil.z);
+
+        _holder._camPhys.AddForce(rotForce.magnitude * cameraRecoilCoefficient, rotForce.normalized);
         _holder.AddForce(posForce, rotForce);
     }
 }
