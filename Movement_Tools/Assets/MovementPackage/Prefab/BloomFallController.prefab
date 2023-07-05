@@ -726,8 +726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  centerForce: 6
-  snappiness: 5
+  centerForce: 10
+  snappiness: 20
   randomForce: 50
   movementFrequency: 2
   movementDampingCoefficient: 0.8
@@ -1004,7 +1004,11 @@ MonoBehaviour:
   movementDampingCoefficient: 0.6
   movementResponse: 1.25
   offsetPosition: {x: 0.1, y: -0.1, z: 0.4}
-  aimingPos: {x: 0, y: -0.1, z: 0.2}
+  firePoint: {fileID: 8733832038478742960}
+  aimingPosition: {x: 0, y: -0.1, z: 0.2}
+  positionRecoil: {x: 0.2, y: 0.2, z: -0.2}
+  rotationRecoil: {x: 50, y: 30, z: 20}
+  cameraRecoilCoefficient: 0.25
 --- !u!1 &8588586024522220838
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,6 +1054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92fe20de39fe834292af03cca6316f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camPhys: {fileID: 0}
   weapon: {fileID: 0}
   weaponMask:
     serializedVersion: 2
@@ -1057,7 +1062,7 @@ MonoBehaviour:
   weaponCheckDistance: 5
   posCenteringForce: 40
   rotCenteringForce: 20
-  snappiness: 40
+  snappiness: 80
   _velocity: {x: 0, y: 0, z: 0}
   _offsetPosition: {x: 0, y: 0, z: 0}
   _offsetRotation: {x: 0, y: 0, z: 0}
@@ -1175,7 +1180,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8733832038478742967}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.134, z: 0.356}
+  m_LocalPosition: {x: 0, y: 0.19, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8733832039113970667}
@@ -1205,7 +1210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8733832039113970666}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.11, z: 0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8733832038478742960}

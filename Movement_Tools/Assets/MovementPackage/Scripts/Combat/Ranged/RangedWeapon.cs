@@ -10,8 +10,13 @@ public class RangedWeapon : Weapon
     public Vector3 positionRecoil;
     public Vector3 rotationRecoil;
     public float cameraRecoilCoefficient = .5f;
-    bool ads = false;
 
+    [Header("Bullet Values")]
+    public LineRenderer projectileTrail;
+    public float rpm;
+    public float fps;
+
+    bool ads = false;
     float originalRotationScale;
     float originalAngleScale;
     float originalPositionScale;
@@ -61,6 +66,21 @@ public class RangedWeapon : Weapon
     public virtual void Shoot()
     {
         //raycast for fps distance
+        Ray ray = new Ray();
+        ray.origin = firePoint.position;
+        ray.direction = firePoint.forward;
+        if(Physics.Raycast(ray, out RaycastHit hit, fps))
+        {
+            GameObject g = Instantiate(projectileTrail.gameObject, firePoint.position, Quaternion.identity);
+            ProjectileTrail pt = g.GetComponent<ProjectileTrail>();
+            pt.SetUpTrail(firePoint.position, hit.point);
+        }
+        else
+        {
+            GameObject g = Instantiate(projectileTrail.gameObject, firePoint.position, Quaternion.identity);
+            ProjectileTrail pt = g.GetComponent<ProjectileTrail>();
+            pt.SetUpTrail(firePoint.position, firePoint.position + (firePoint.forward * fps));
+        }
 
 
         //handle recoil
