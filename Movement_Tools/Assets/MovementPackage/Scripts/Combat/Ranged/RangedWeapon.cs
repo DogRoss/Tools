@@ -11,7 +11,7 @@ public class RangedWeapon : Weapon
     public Vector3 rotationRecoil;
     public float cameraRecoilCoefficient = .5f;
 
-    [Header("Bullet Values")]
+    [Header("Projectile Values")]
     public LineRenderer projectileTrail;
     public float rpm;
     public float fps;

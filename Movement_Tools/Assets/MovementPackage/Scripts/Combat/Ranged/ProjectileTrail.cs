@@ -7,6 +7,7 @@ public class ProjectileTrail : MonoBehaviour
 {
     public float closingTime;
     public LineRenderer trail;
+    public float startingWidth;
     public Color startColor;
 
     [HideInInspector] public Vector3 start;
@@ -25,6 +26,7 @@ public class ProjectileTrail : MonoBehaviour
     public void SetUpTrail(Vector3 startingPosition, Vector3 targetPosition)
     {
         current = 0;
+        //trail.startWidth = startingWidth;
         trail.SetPosition(0, startingPosition);
         trail.SetPosition(1, targetPosition);
         start = startingPosition;
@@ -35,7 +37,7 @@ public class ProjectileTrail : MonoBehaviour
     void Update()
     {
         current += Time.deltaTime;
-        //trail.SetPosition(0, Vector3.Lerp(start, target, current / closingTime));
+        //trail.startWidth = Mathf.Lerp(startingWidth, 0, current / closingTime);
         trail.startColor = Color.Lerp(startColor, endColor, current / closingTime);
         trail.endColor = Color.Lerp(startColor, endColor, current / closingTime);
     }
