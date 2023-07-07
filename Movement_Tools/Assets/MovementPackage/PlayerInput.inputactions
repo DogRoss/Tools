@@ -114,7 +114,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Restart",
+                    "name": "R",
                     "type": "Button",
                     "id": "88ed23fe-cf79-44fb-a5cb-8d7bb372a826",
                     "expectedControlType": "Button",
@@ -285,7 +285,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Restart",
+                    "action": "R",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

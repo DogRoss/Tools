@@ -34,7 +34,8 @@ public class Weapon : MonoBehaviour
     //private variables
     Vector3 _movementInputVector = Vector3.zero;
     Vector3 _rotationInputVector = Vector3.zero;
-
+    protected bool _mainAbilityEnabled;
+    protected bool _secondaryAbilityEnabled;
     public virtual void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -110,12 +111,12 @@ public class Weapon : MonoBehaviour
 
     public virtual void MainAbility(bool enable)
     {
-
+        _mainAbilityEnabled = enable;
     }
 
     public virtual void SecondaryAbility(bool enable)
     {
-
+        _secondaryAbilityEnabled = enable;
     }
 
     public virtual void SpecialAbility(bool enable)

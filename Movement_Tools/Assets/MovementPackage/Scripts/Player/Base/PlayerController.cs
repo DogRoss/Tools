@@ -38,7 +38,9 @@ public class PlayerController : Movement
 
     [Header("F")]
     public UnityEvent fDown;
-    public UnityEvent fUp;
+
+    [Header("R")]
+    public UnityEvent rDown;
 
     public override void Awake()
     {
@@ -80,8 +82,11 @@ public class PlayerController : Movement
     {
         if (value.Get<float>() > 0)
             fDown.Invoke();
-        else
-            fUp.Invoke();
+    }
+    private void OnR(InputValue value)
+    {
+        if (value.Get<float>() > 0)
+            rDown.Invoke();
     }
 
     private void OnLMouseDown(InputValue value)
