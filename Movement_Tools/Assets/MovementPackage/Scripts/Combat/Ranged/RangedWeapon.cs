@@ -157,7 +157,7 @@ public class RangedWeapon : Weapon
         Vector3 posForce = positionRecoil;
         posForce.x = Random.Range(-posForce.x, posForce.x);
         Vector3 rotForce = Vector3.zero;
-        rotForce.x -= rotationRecoil.x - (Random.Range(0.5f, 1) * rotationRecoil.x);
+        rotForce.x -= Random.Range(0.75f, 1) * rotationRecoil.x;
         rotForce.y += Random.Range(-rotationRecoil.y, rotationRecoil.y);
         rotForce.z += Random.Range(-rotationRecoil.z, rotationRecoil.z);
 
