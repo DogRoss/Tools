@@ -90,6 +90,7 @@ public class WeaponHolder : MonoBehaviour
     {
         if(weapon != null)
         {
+            weapon.DisableDynamics();
             weapon.EnableRigidbodyPhysics(true);
             //add force here
             weapon = null;
@@ -107,7 +108,7 @@ public class WeaponHolder : MonoBehaviour
         weapon = _weapon;
         weapon.EnableRigidbodyPhysics(false);
         weapon.transform.parent = transform.parent;
-        weapon.transform.localPosition = Vector3.zero;
+        weapon.transform.localPosition = new Vector3(-.5f, -1);
         weapon.transform.localRotation = Quaternion.identity;
         weapon._holder = this;
 
@@ -115,6 +116,8 @@ public class WeaponHolder : MonoBehaviour
         transform.localPosition = _offsetPosition;
         _offsetRotation = weapon.offsetRotation;
         transform.localRotation = Quaternion.Euler(_offsetRotation);
+
+        weapon.StartDynamics();
     }
 
     public void MainInteraction(bool enable)

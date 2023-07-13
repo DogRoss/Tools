@@ -47,11 +47,6 @@ public class Weapon : MonoBehaviour
     public virtual void Start()
     {
         _player = PlayerController.player;
-
-        _movementDynamics = new SecondOrderDynamics();
-        _movementDynamics.SecondOrderDynamicsFunction(movementFrequency, movementDampingCoefficient, movementResponse, transform.localPosition);
-        _rotationDynamics = new SecondOrderDynamics();
-        _rotationDynamics.SecondOrderDynamicsFunction(rotationFrequency, rotationDampingCoefficient, rotationResponse, Vector3.zero);
     }
     public virtual void FixedUpdate()
     {
@@ -62,6 +57,18 @@ public class Weapon : MonoBehaviour
             if (useRotationDynamics)
                 UpdateRotationDynamics();
         }
+    }
+    public void DisableDynamics()
+    {
+        _movementDynamics = null;
+        _rotationDynamics = null;
+    }
+    public void StartDynamics()
+    {
+        _movementDynamics = new SecondOrderDynamics();
+        _movementDynamics.SecondOrderDynamicsFunction(movementFrequency, movementDampingCoefficient, movementResponse, transform.localPosition);
+        _rotationDynamics = new SecondOrderDynamics();
+        _rotationDynamics.SecondOrderDynamicsFunction(rotationFrequency, rotationDampingCoefficient, rotationResponse, transform.localRotation.eulerAngles);
     }
     public virtual void UpdatePositionDynamics()
     {
@@ -93,6 +100,8 @@ public class Weapon : MonoBehaviour
         //if true, its a ground object, if not, its meant to be held
         if (enable)
         {
+            StopAllCoroutines();
+
             _rb.isKinematic = false;
             transform.parent = null;
             if (_holder && _holder.weapon == this)

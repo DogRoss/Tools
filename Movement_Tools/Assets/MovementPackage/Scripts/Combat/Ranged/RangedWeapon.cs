@@ -64,7 +64,6 @@ public class RangedWeapon : Weapon
     public override void SecondaryAbility(bool enable)
     {
         _secondaryAbilityEnabled = enable;
-
         AimDownSights(enable);
     }
 
@@ -157,7 +156,7 @@ public class RangedWeapon : Weapon
         Vector3 posForce = positionRecoil;
         posForce.x = Random.Range(-posForce.x, posForce.x);
         Vector3 rotForce = Vector3.zero;
-        rotForce.x -= Random.Range(0.75f, 1) * rotationRecoil.x;
+        rotForce.x -= Random.Range(0.75f, 1.25f) * rotationRecoil.x;
         rotForce.y += Random.Range(-rotationRecoil.y, rotationRecoil.y);
         rotForce.z += Random.Range(-rotationRecoil.z, rotationRecoil.z);
 
@@ -168,12 +167,29 @@ public class RangedWeapon : Weapon
     public virtual IEnumerator AutoShoot()
     {
         _autoCoroutine = true;
+        Vector3 originalRecoil = rotationRecoil;
+        Vector3 []shots = new Vector3[5];
+        shots[0] = rotationRecoil / 5;
+        shots[1] = shots[0] * 2;
+        shots[2] = rotationRecoil / 2;
+        shots[3] = shots[2] + shots[0];
+        shots[4] = rotationRecoil;
+
+        int current = 0;
+
+        //climb really high after 3 shots
         while (currentMag > 0 && _mainAbilityEnabled)
         {
             Shoot();
+            if(current < 4)
+            {
+                current++;
+                rotationRecoil = shots[current];
+            }
             yield return new WaitForSeconds(_timeBetweenProjectiles);
         }
 
+        rotationRecoil = originalRecoil;
         _firingProjectile = false;
         _autoCoroutine = false;
         yield return null;
@@ -183,6 +199,8 @@ public class RangedWeapon : Weapon
         _cooldown = true;
         yield return new WaitForSeconds(_timeBetweenProjectiles);
         _cooldown = false;
+
+
     }
 }
 
