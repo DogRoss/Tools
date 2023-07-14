@@ -25,21 +25,38 @@ public class RangedWeapon : Weapon
     public int magazineSize;
     public int ammo;
 
+    [Header("Burst Only")]
+    public int burstShotAmount = 5;
+
+    [Header("Smooth Fire Control (Auto Only)")]
+    [Min(1)] public int controlledShotAmount = 5;
+    [Range(0,1)] public float startingRecoilScale = .5f;
     
     bool _ads = false;
     bool _cooldown = false;
     bool _firingProjectile = false;
     bool _autoCoroutine = false;
+    bool _burstCoroutine = false;
     float _originalRotationScale;
     float _originalAngleScale;
     float _originalPositionScale;
     float _timeBetweenProjectiles;
     float _calculatedWeight;
 
+    //Recoil
+    Vector3 originalRecoil;
+    Vector3[] shots;
+    int _currentShot = 0;
+    bool _regainingControl;
+
     public override void Start()
     {
         base.Start();
         RangedWeaponStart();
+    }
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
     }
     public override void MainAbility(bool enable)
     {
@@ -58,6 +75,11 @@ public class RangedWeapon : Weapon
                     if(!_autoCoroutine)
                         StartCoroutine(AutoShoot());
                     break;
+                case ShootingType.Burst:
+                    _firingProjectile = true;
+                    if (!_burstCoroutine)
+                        StartCoroutine(BurstShoot());
+                    break;
             }
         }
     }
@@ -74,6 +96,13 @@ public class RangedWeapon : Weapon
         _originalPositionScale = movementScale;
         _timeBetweenProjectiles = 1 / (rpm / 60);
         _calculatedWeight = weight / 7000;
+
+        shots = new Vector3[controlledShotAmount];
+        originalRecoil = rotationRecoil;
+        for (int i = 0; i < controlledShotAmount; i++)
+        {
+            shots[i] = Vector3.Lerp(rotationRecoil * startingRecoilScale, rotationRecoil, (float)i / (controlledShotAmount - 1));
+        }
     }
     public virtual void AimDownSights(bool enable)
     {
@@ -159,37 +188,62 @@ public class RangedWeapon : Weapon
         rotForce.x -= Random.Range(0.75f, 1.25f) * rotationRecoil.x;
         rotForce.y += Random.Range(-rotationRecoil.y, rotationRecoil.y);
         rotForce.z += Random.Range(-rotationRecoil.z, rotationRecoil.z);
-
+        
         _holder._camPhys.AddForce(rotForce.magnitude * cameraRecoilCoefficient, rotForce.normalized);
         _holder.AddForce(posForce, rotForce);
     }
 
-    public virtual IEnumerator AutoShoot()
+    public virtual IEnumerator BurstShoot()
     {
-        _autoCoroutine = true;
-        Vector3 originalRecoil = rotationRecoil;
-        Vector3 []shots = new Vector3[5];
-        shots[0] = rotationRecoil / 5;
-        shots[1] = shots[0] * 2;
-        shots[2] = rotationRecoil / 2;
-        shots[3] = shots[2] + shots[0];
-        shots[4] = rotationRecoil;
+        _burstCoroutine = true;
 
-        int current = 0;
-
-        //climb really high after 3 shots
-        while (currentMag > 0 && _mainAbilityEnabled)
+        int bulletsShot = 0;
+        while (currentMag > 0 && bulletsShot < burstShotAmount)
         {
-            Shoot();
-            if(current < 4)
+            bulletsShot++;
+
+            //handle smooth burst fire
+            if (_currentShot < controlledShotAmount - 1)
             {
-                current++;
-                rotationRecoil = shots[current];
+                rotationRecoil = shots[_currentShot];
+                _currentShot++;
             }
+            else
+                rotationRecoil = originalRecoil;
+
+            Shoot();
             yield return new WaitForSeconds(_timeBetweenProjectiles);
         }
 
-        rotationRecoil = originalRecoil;
+        if (!_regainingControl)
+            StartCoroutine(RegainControl());
+
+        _firingProjectile = false;
+        _burstCoroutine = false;
+        yield return null;
+    }
+    public virtual IEnumerator AutoShoot()
+    {
+        _autoCoroutine = true;
+
+        while (currentMag > 0 && _mainAbilityEnabled)
+        {
+            //handle smooth burst fire
+            if (_currentShot < controlledShotAmount - 1)
+            {
+                rotationRecoil = shots[_currentShot];
+                _currentShot++;
+            }
+            else
+                rotationRecoil = originalRecoil;
+
+            Shoot();
+            yield return new WaitForSeconds(_timeBetweenProjectiles);
+        }
+
+        if(!_regainingControl)
+            StartCoroutine(RegainControl());
+
         _firingProjectile = false;
         _autoCoroutine = false;
         yield return null;
@@ -199,13 +253,29 @@ public class RangedWeapon : Weapon
         _cooldown = true;
         yield return new WaitForSeconds(_timeBetweenProjectiles);
         _cooldown = false;
+    }
 
+    public virtual IEnumerator RegainControl()
+    {
+        _regainingControl = true;
 
+        yield return new WaitForSeconds(_timeBetweenProjectiles);
+
+        //wait another tick before allowing recoil to go back down
+        while (_currentShot > 0 && !_mainAbilityEnabled)
+        {
+            _currentShot--;
+            rotationRecoil = shots[_currentShot];
+            yield return new WaitForSeconds(_timeBetweenProjectiles);
+        }
+
+        _regainingControl = false;
     }
 }
 
 public enum ShootingType
 {
     Semi,
-    Auto
+    Auto,
+    Burst
 }

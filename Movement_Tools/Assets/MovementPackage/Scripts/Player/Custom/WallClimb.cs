@@ -16,7 +16,7 @@ public class WallClimb : MonoBehaviour
     public float maxWallClimbSpeed = 5f;
 
     [Tooltip("max angle you can turn away from the wall before wall climbing turns off")]
-    [Range(0,90)]public float wallClimbBreakAngle = 45;
+    [Range(0,90)]public float breakAngle = 45;
     float wcbaCoefficient;
 
     //private variables
@@ -32,7 +32,7 @@ public class WallClimb : MonoBehaviour
         _crouchEvent = GetComponent<PlayerCrouch>();
         _camera = _player.Cam.transform;
 
-        wcbaCoefficient = -1 + (wallClimbBreakAngle / 90);
+        wcbaCoefficient = -1 + (breakAngle / 90);
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
