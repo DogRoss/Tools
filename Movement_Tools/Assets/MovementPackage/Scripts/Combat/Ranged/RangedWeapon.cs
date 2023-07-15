@@ -37,9 +37,9 @@ public class RangedWeapon : Weapon
     bool _firingProjectile = false;
     bool _autoCoroutine = false;
     bool _burstCoroutine = false;
-    float _originalRotationScale;
-    float _originalAngleScale;
-    float _originalPositionScale;
+    Vector3 _originalRotationScale;
+    Vector3 _originalAngleScale;
+    Vector3 _originalPositionScale;
     float _timeBetweenProjectiles;
     float _calculatedWeight;
 

@@ -17,17 +17,17 @@ public class Weapon : MonoBehaviour
     public float rotationFrequency = 2;
     public float rotationDampingCoefficient = .8f;
     public float rotationResponse = .5f;
-    public float rotationScale = 1;
-    public float angleScale = 1;
+    public Vector3 rotationScale = Vector3.one;
+    public Vector3 angleScale = Vector3.one;
 
     public Vector3 offsetRotation = Vector3.zero;
 
     [Header("Position Dynamics and Offset")]
     public bool usePositionDynamics = true;
-    public float movementScale = 1;
     public float movementFrequency = 2;
     public float movementDampingCoefficient = .8f;
     public float movementResponse = .5f;
+    public Vector3 movementScale = Vector3.one;
 
     public Vector3 offsetPosition = Vector3.zero;
 
@@ -73,7 +73,8 @@ public class Weapon : MonoBehaviour
     public virtual void UpdatePositionDynamics()
     {
         //TODO: replace zero vector with offset positional vector
-        _movementInputVector = transform.InverseTransformDirection(movementScale * _holder._velocity) + _holder.transform.localPosition;
+        //_movementInputVector = transform.InverseTransformDirection(movementScale * _holder._velocity) + _holder.transform.localPosition;
+        _movementInputVector = CalculateMovementScale() + _holder.transform.localPosition;
         _movementInputVector = _movementDynamics.UpdateDynamics(Time.fixedDeltaTime, _movementInputVector);
         transform.localPosition = _movementInputVector;
     }
@@ -88,8 +89,10 @@ public class Weapon : MonoBehaviour
             _rotationInputVector.z -= 360;
         _holder.transform.localEulerAngles = _rotationInputVector;
 
-        _rotationInputVector += Vector3.Cross(rotationScale * transform.InverseTransformDirection(_holder._velocity), _holder.transform.up);
-        _rotationInputVector += angleScale * transform.InverseTransformDirection(_holder.angularVelocity);
+        //_rotationInputVector += Vector3.Cross(rotationScale * transform.InverseTransformDirection(_holder._velocity), _holder.transform.up);
+        _rotationInputVector += CalculateRotationScale();
+        //_rotationInputVector += angleScale * transform.InverseTransformDirection(_holder.angularVelocity);
+        _rotationInputVector += CalculateAngleScale();
         _rotationInputVector = _rotationDynamics.UpdateDynamics(Time.fixedDeltaTime, _rotationInputVector);
 
         transform.localRotation = Quaternion.Euler(_rotationInputVector);
@@ -131,5 +134,30 @@ public class Weapon : MonoBehaviour
     public virtual void SpecialAbility(bool enable)
     {
 
+    }
+
+    public Vector3 CalculateMovementScale()
+    {
+        Vector3 scaledVel = transform.InverseTransformDirection(_holder._velocity);
+        scaledVel.x *= movementScale.x;
+        scaledVel.y *= movementScale.y;
+        scaledVel.z *= movementScale.z;
+        return scaledVel;
+    }
+    public Vector3 CalculateRotationScale()
+    {
+        Vector3 scaledVel = transform.InverseTransformDirection(_holder._velocity);
+        scaledVel.x *= rotationScale.x;
+        scaledVel.y *= rotationScale.y;
+        scaledVel.z *= rotationScale.z;
+        return Vector3.Cross(scaledVel, _holder.transform.up);
+    }
+    public Vector3 CalculateAngleScale()
+    {
+        Vector3 scaledVel = transform.InverseTransformDirection(_holder.angularVelocity);
+        scaledVel.x *= angleScale.x;
+        scaledVel.y *= angleScale.y;
+        scaledVel.z *= angleScale.z;
+        return scaledVel;
     }
 }
