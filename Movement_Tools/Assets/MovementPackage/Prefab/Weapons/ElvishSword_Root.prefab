@@ -107,7 +107,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7361831993380182123}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
@@ -132,14 +132,14 @@ MonoBehaviour:
   rotationFrequency: 2
   rotationDampingCoefficient: 0.8
   rotationResponse: 3
-  rotationScale: -50
-  angleScale: 0
+  rotationScale: {x: 1, y: 1, z: 1}
+  angleScale: {x: 1, y: 1, z: 1}
   offsetRotation: {x: 0, y: 0, z: 0}
   usePositionDynamics: 1
-  movementScale: -0.4
   movementFrequency: 2
   movementDampingCoefficient: 0.8
   movementResponse: 0.75
+  movementScale: {x: 1, y: 1, z: 1}
   offsetPosition: {x: 0.1, y: -0.3, z: 0.4}
 --- !u!65 &7361831993380182120
 BoxCollider:

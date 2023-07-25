@@ -111,8 +111,8 @@ MonoBehaviour:
   rotationFrequency: 2
   rotationDampingCoefficient: 0.6
   rotationResponse: 3
-  rotationScale: {x: -10, y: -10, z: -10}
-  angleScale: {x: 0.01, y: 0.01, z: 0.01}
+  rotationScale: {x: 0, y: 0, z: 0}
+  angleScale: {x: 0, y: 0, z: 0}
   offsetRotation: {x: 0, y: 0, z: 0}
   usePositionDynamics: 1
   movementFrequency: 1.5

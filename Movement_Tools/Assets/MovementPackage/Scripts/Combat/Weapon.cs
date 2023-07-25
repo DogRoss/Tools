@@ -138,11 +138,12 @@ public class Weapon : MonoBehaviour
 
     public Vector3 CalculateMovementScale()
     {
-        Vector3 scaledVel = transform.InverseTransformDirection(_holder._velocity);
+        //Vector3 scaledVel = transform.InverseTransformDirection(_holder._velocity);
+        Vector3 scaledVel = _holder._velocity;
         scaledVel.x *= movementScale.x;
         scaledVel.y *= movementScale.y;
         scaledVel.z *= movementScale.z;
-        return scaledVel;
+        return transform.InverseTransformDirection(scaledVel);
     }
     public Vector3 CalculateRotationScale()
     {

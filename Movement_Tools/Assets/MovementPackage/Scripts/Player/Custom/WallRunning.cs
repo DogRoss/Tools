@@ -61,11 +61,11 @@ public class WallRunning : MonoBehaviour
         _waitingForEnd = true;
 
 
-        Vector3 movementDirection = Vector3.Project(_player.direction, movementAxis).normalized;
+        Vector3 movementDirection = Vector3.ProjectOnPlane(_player.direction, hit.normal).normalized;
 
         while (_player.Controller.collisionFlags != CollisionFlags.None && _player.Controller.collisionFlags != CollisionFlags.Below && !_crouchEvent.crouching)
         {
-            movementDirection = Vector3.Project(_player.direction, movementAxis).normalized;
+            movementDirection = Vector3.ProjectOnPlane(_player.direction, hit.normal).normalized;
             _player.AddForce((movementDirection * dot) * wallRunningSpeed * Time.deltaTime);
 
             if(_player.moveVec.y < -verticalSpeedCap)

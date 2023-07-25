@@ -11,7 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/ExternalPackages/BloomFall_Map_Necessities/Scenes/GameScene.unity
     guid: e565d379ce907de46b6c4e4176a7c46d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameTestScene.unity
     guid: ee69615a5ca1a2d459c9598207c9fe98
+  - enabled: 1
+    path: Assets/Scenes/GunPlayScene.unity
+    guid: f5d889cc726ca1e4b92340f66765a581
   m_configObjects: {}

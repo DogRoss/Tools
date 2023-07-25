@@ -1650,20 +1650,20 @@ MonoBehaviour:
   rotationFrequency: 2
   rotationDampingCoefficient: 0.6
   rotationResponse: 3
-  rotationScale: -25
-  angleScale: 0.01
+  rotationScale: {x: -10, y: -10, z: -10}
+  angleScale: {x: 0.01, y: 0.01, z: 0.01}
   offsetRotation: {x: 0, y: 0, z: 0}
   usePositionDynamics: 1
-  movementScale: -0.25
   movementFrequency: 1.5
   movementDampingCoefficient: 0.6
   movementResponse: 1.25
+  movementScale: {x: 0.25, y: 0.25, z: 0.25}
   offsetPosition: {x: 0.1, y: -0.3, z: 0.3}
   firePoint: {fileID: 601121325794039546}
-  aimingPosition: {x: 0, y: -0.175, z: 0.3}
+  aimingPosition: {x: 0, y: -0.18, z: 0.3}
   positionRecoil: {x: 0.025, y: 0, z: -0.4}
-  rotationRecoil: {x: 5, y: 3, z: 1}
-  cameraRecoilCoefficient: 1
+  rotationRecoil: {x: 5, y: 1.5, z: 1}
+  cameraRecoilCoefficient: 2
   projectileTrail: {fileID: 3889912570852737314, guid: 7ce90a8bc5bb81e408b38929bd24841a, type: 3}
   type: 1
   rpm: 540
@@ -1673,6 +1673,9 @@ MonoBehaviour:
   currentMag: 500
   magazineSize: 30
   ammo: 500
+  burstShotAmount: 3
+  controlledShotAmount: 5
+  startingRecoilScale: 0.1
 --- !u!1 &4417316312711978076
 GameObject:
   m_ObjectHideFlags: 0
