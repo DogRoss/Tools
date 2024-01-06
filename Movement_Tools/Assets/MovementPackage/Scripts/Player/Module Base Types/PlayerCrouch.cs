@@ -93,7 +93,7 @@ public class PlayerCrouch : PlayerBase
             return false;
     }
 
-    public virtual IEnumerator UnCrouch()
+    /*public virtual IEnumerator UnCrouch()
     {
         coroutineRunning = true;
 
@@ -122,6 +122,37 @@ public class PlayerCrouch : PlayerBase
             yield return null;
         }
         player.Controller.height = player.originalControllerHeight;
+        crouching = false;
+
+        if (player.jumpEvent)
+            player.jumpEvent.jumpMultiplier += crouchJumpDeductive;
+
+        coroutineRunning = false;
+    }*/
+
+    public virtual IEnumerator UnCrouch()
+    {
+        coroutineRunning = true;
+
+        //check if object above us
+        bool waitForGetup = CheckAboveHead();
+
+        //if so begin loop until we have left the object blocking us from getting up
+        if (waitForGetup)
+        {
+            while (CheckAboveHead())
+            {
+                yield return null;
+            }
+        }
+
+        //uncrouch
+        player.restrictAccelCoefficient = false;
+
+        player.Controller.enableOverlapRecovery = true;
+        player.Controller.height = player.originalControllerHeight;
+        yield return new WaitForEndOfFrame();
+        player.AddForce(Vector3.down * .1f);
         crouching = false;
 
         if (player.jumpEvent)
